@@ -146,6 +146,24 @@ sliderBtn.addEventListener('click', function () {
   createSlider()
 })
 
+// added spinner to slide for bonus marks
+document.getElementById("duration")
+  .addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      sliderBtn.click();
+    }
+  });
+
+searchBtn.addEventListener('click', function () {
+  document.querySelector('.main').style.display = 'none';
+  clearInterval(timer);
+  const search = document.getElementById('search');
+  getImages(search.value)
+  sliders.length = 0;
+  document.getElementById('duration').value = "";
+  toggleSpinner();
+})
+
 // spiner for bonus marks
 const toggleSpiner = (show) =>{
   const spiner = document.getElementById("loading-spiner");
