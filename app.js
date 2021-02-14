@@ -25,29 +25,34 @@ const showImages = (images) => {
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
   })
-
+  toggleSpiner(false);
 }
 
 const getImages = (query) => {
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
+     
     .then(response => response.json())
     .then(data => showImages(data.hits))
 
     .catch(err => console.log(err))
+    toggleSpiner(true);
 }
-
+//Select & Deselect image
 let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
-  element.classList.add('added');
- 
+  element.classList.toggle('added');
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
   } else {
-    alert('Hey, Already added !')
+    const index = sliders.indexOf(img);
+    if (index > -1) {
+      sliders.splice(index, 1);
+    }
   }
 }
+
 var timer
 const createSlider = () => {
   // check slider image length
@@ -136,6 +141,19 @@ document.getElementById("duration")
 
 
 
+
 sliderBtn.addEventListener('click', function () {
   createSlider()
 })
+
+// spiner for bonus marks
+const toggleSpiner = (show) =>{
+  const spiner = document.getElementById("loading-spiner");
+  if (show) {
+    spiner.classList.remove("d-none")
+  }
+  else{
+    spiner.classList.add("d-none")
+  }
+  
+}
